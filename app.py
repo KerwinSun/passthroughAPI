@@ -23,5 +23,3 @@ def api_health():
     out = subprocess.Popen("echo Hello World", shell=True, stdout=subprocess.PIPE)
     subprocess_return = out.stdout.read()
     return "command output:" + str(subprocess_return)
-
-app.run()
