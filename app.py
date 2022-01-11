@@ -6,12 +6,18 @@ app = flask.Flask(__name__)
 app.config['DEBUG'] = True
 p = False
 
+def basicCookieAuth(request):
+    if request.cookies.get('cookieAuth') == 'cookieAuth'
+        return True
+    return False
+
 @app.route('/', methods=['GET'])
 def home():
     return "<h1>API home placeholder</h1>"
 
 @app.route('/passthrough/api/v1/executeCommand', methods=['GET'])
 def api_executeCommand():
+    return 'not authorized' if basicCookieAuth(request)
     global p
     if 'cmd' in request.args:
     	cmd = request.args['cmd']
