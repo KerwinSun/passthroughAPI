@@ -24,7 +24,10 @@ def api_executeCommand():
 @app.route('/passthrough/api/v1/getCommandOutput', methods=['GET'])
 def api_getCommandOutput():
     global p
-    return "<div> command output: " + p.stdout.readline().decode() + "</div>"
+    if p:
+        return "<div> command output: " + p.stdout.readline().decode() + "</div>"
+    else:
+        return "no active commands"
     
 @app.route('/passthrough/api/v1/health', methods=['GET'])
 def api_health():
