@@ -7,7 +7,7 @@ app.config['DEBUG'] = True
 p = False
 
 def basicCookieAuth(request):
-    if request.cookies.get('cookieAuth') == 'cookieAuth'
+    if request.cookies.get('cookieAuth') == 'cookieAuth':
         return True
     return False
 
@@ -17,7 +17,8 @@ def home():
 
 @app.route('/passthrough/api/v1/executeCommand', methods=['GET'])
 def api_executeCommand():
-    return 'not authorized' if basicCookieAuth(request)
+    if(not basicCookieAuth(request)):
+        return '0'
     global p
     if 'cmd' in request.args:
     	cmd = request.args['cmd']
@@ -29,6 +30,8 @@ def api_executeCommand():
 
 @app.route('/passthrough/api/v1/getCommandOutput', methods=['GET'])
 def api_getCommandOutput():
+    if(not basicCookieAuth(request)):
+        return '0'
     global p
     if p:
         return "<div> command output: " + p.stdout.readline().decode() + "</div>"
