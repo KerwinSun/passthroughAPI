@@ -28,7 +28,7 @@ def api_executeCommand():
 
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr = subprocess.STDOUT)
 
-    response = jsonify(command=cmd)
+    response = jsonify({"command":cmd})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
@@ -38,9 +38,9 @@ def api_getCommandOutput():
         return '0'
     global p
     if p:
-        response = jsonify(result=p.stdout.readline().decode())
+        response = jsonify({"result": p.stdout.readline().decode()})
     else:
-        response = jsonify(command='')
+        response = jsonify({"result":''})
 
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
