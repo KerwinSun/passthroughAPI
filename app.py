@@ -29,6 +29,7 @@ def api_executeCommand():
 
     response = flask.jsonify({"command":cmd})
     response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
 
 @app.route('/passthrough/api/v1/getCommandOutput', methods=['GET'])
@@ -42,6 +43,7 @@ def api_getCommandOutput():
         response = flask.jsonify({"result":''})
 
     response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
     
 @app.route('/passthrough/api/v1/health', methods=['GET'])
