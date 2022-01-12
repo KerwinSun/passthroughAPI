@@ -1,6 +1,5 @@
 import flask
 import subprocess
-import jsonify
 from flask import request
 
 app = flask.Flask(__name__)
@@ -28,7 +27,7 @@ def api_executeCommand():
 
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr = subprocess.STDOUT)
 
-    response = jsonify({"command":cmd})
+    response = flask.jsonify({"command":cmd})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
@@ -38,9 +37,9 @@ def api_getCommandOutput():
         return '0'
     global p
     if p:
-        response = jsonify({"result": p.stdout.readline().decode()})
+        response = flask.jsonify({"result": p.stdout.readline().decode()})
     else:
-        response = jsonify({"result":''})
+        response = flask.jsonify({"result":''})
 
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
