@@ -1,5 +1,6 @@
 import flask
 import subprocess
+import jsonify
 from flask import request
 
 app = flask.Flask(__name__)
@@ -26,7 +27,10 @@ def api_executeCommand():
     	return "error no command found"
 
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr = subprocess.STDOUT)
-    return "command: " + cmd + " written succesfully"
+
+    response = jsonify(command=cmd)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @app.route('/passthrough/api/v1/getCommandOutput', methods=['GET'])
 def api_getCommandOutput():
@@ -34,9 +38,12 @@ def api_getCommandOutput():
         return '0'
     global p
     if p:
-        return "<div> command output: " + p.stdout.readline().decode() + "</div>"
+        response = jsonify(result=p.stdout.readline().decode())
     else:
-        return "no active commands"
+        response = jsonify(command='')
+
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
     
 @app.route('/passthrough/api/v1/health', methods=['GET'])
 def api_health():
