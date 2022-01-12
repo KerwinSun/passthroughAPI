@@ -17,8 +17,6 @@ def home():
 
 @app.route('/passthrough/api/v1/executeCommand', methods=['GET'])
 def api_executeCommand():
-    if(not basicCookieAuth(request)):
-        return '0'
     global p
     if 'cmd' in request.args:
     	cmd = request.args['cmd']
@@ -29,13 +27,10 @@ def api_executeCommand():
 
     response = flask.jsonify({"command":cmd})
     response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
 
 @app.route('/passthrough/api/v1/getCommandOutput', methods=['GET'])
 def api_getCommandOutput():
-    if(not basicCookieAuth(request)):
-        return '0'
     global p
     if p:
         response = flask.jsonify({"result": p.stdout.readline().decode()})
@@ -43,7 +38,6 @@ def api_getCommandOutput():
         response = flask.jsonify({"result":''})
 
     response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
     
 @app.route('/passthrough/api/v1/health', methods=['GET'])
